@@ -73,22 +73,35 @@ contra tiempo para cada problema.
 
 ## Tiempos de ejecución y valores omitidos
 
-Algunos valores de n tardan mucho tiempo en medirse. Por eso los programas
-de los problemas 1 y 3 miden por defecto hasta n = 100000. Para medir
-también n = 1000000 se indica como argumento:
+Algunos valores de n tardan mucho tiempo en medirse. Por eso cada programa
+tiene un valor máximo de n por defecto:
+
+- El problema 1 mide por defecto hasta n = 100000. Si n = 1000000 no se
+  mide, aparece como `omitido (ver README para medirlo)`.
+- El problema 3 mide por defecto hasta n = 10000. Si n = 100000 y
+  n = 1000000 no se miden, aparecen como `omitido por tiempo`.
+- El problema 2 mide todos los valores.
+
+Para medir también los valores omitidos se indica como argumento el n
+máximo, por ejemplo:
 
 ```
 ./problema1 1000000
-./problema3 1000000
+./problema3 100000
 ```
 
-Tiempos aproximados en la computadora donde se hicieron las pruebas:
+Tiempos en la computadora donde se hicieron las pruebas (compilados con
+`-O2`; las mediciones marcadas como estimadas salen de `analisis.py` a partir
+del mayor n medido):
 
-| Programa   | n = 100000      | n = 1000000            |
-|------------|-----------------|------------------------|
-| problema1  | unos 2 minutos  | unas 3.7 horas         |
-| problema2  | menos de 1 s    | menos de 1 s           |
-| problema3  | unos 10 segundos| unos 16 minutos        |
+| Programa   | n = 10000        | n = 100000                    | n = 1000000              |
+|------------|------------------|-------------------------------|--------------------------|
+| problema1  | 0.107 s          | unos 13 s (estimado)          | unos 25 min (estimado)   |
+| problema2  | 0.004 s          | 0.040 s                       | 0.376 s                  |
+| problema3  | 3.16 s           | unos 5 min 16 s (medido) (*)  | unas 8.6 horas (estimado)|
+
+(*) Medido en una corrida anterior del mismo programa; con el valor por
+defecto actual de `problema3` no se mide.
 
 Si un valor de n no se mide, `analisis.py` lo estima multiplicando el tiempo
 del mayor n medido por la proporción de operaciones que predice el análisis

@@ -15,8 +15,9 @@
 #include <stdlib.h>
 #include "medicion.h"
 
-/* Valor maximo de n que se mide si no se indica otro (ver README). */
-#define N_MAXIMO_POR_DEFECTO 100000
+/* Valor maximo de n que se mide si no se indica otro. Con 100000 la
+   ejecucion tarda demasiado, asi que ese valor se estima en analisis.py. */
+#define N_MAXIMO_POR_DEFECTO 10000
 
 /* Funcion del enunciado. */
 void function(int n)
@@ -59,7 +60,7 @@ int main(int argc, char *argv[])
         n = VALORES_N[p];
 
         if (n > n_maximo) {
-            fprintf(stderr, "%10d  omitido (ver README para medirlo)\n", n);
+            fprintf(stderr, "%10d  omitido por tiempo\n", n);
             continue;
         }
 
@@ -67,6 +68,8 @@ int main(int argc, char *argv[])
 
         fprintf(stderr, "%10d %16.9f\n", n, segundos);
         fprintf(archivo, "%d,%.9f\n", n, segundos);
+        /* Se guarda cada fila al momento, por si el programa se interrumpe. */
+        fflush(archivo);
     }
 
     fclose(archivo);

@@ -32,40 +32,28 @@ static const int VALORES_N[CANTIDAD_VALORES] = {
 static double medir_tiempo(void (*funcion)(int), int n)
 {
     clock_t inicio, fin;
-    double segundos, por_llamada;
-    int repeticiones, i;
+    double segundos;
+    long repeticiones = 1;
+    long i;
 
-    /* Primera medicion: una sola ejecucion. */
-    inicio = clock();
-    funcion(n);
-    fin = clock();
-    segundos = (double)(fin - inicio) / CLOCKS_PER_SEC;
+    /* Se duplican las repeticiones hasta que el tiempo total supere
+       TIEMPO_MINIMO. Asi no se depende de estimar el tiempo de una
+       sola llamada, que con la resolucion de clock() puede dar 0. */
+    while (1) {
+        inicio = clock();
+        for (i = 0; i < repeticiones; i++) {
+            funcion(n);
+        }
+        fin = clock();
 
-    if (segundos >= TIEMPO_MINIMO) {
-        return segundos;
+        segundos = (double)(fin - inicio) / CLOCKS_PER_SEC;
+        if (segundos >= TIEMPO_MINIMO || repeticiones >= MAX_REPETICIONES) {
+            break;
+        }
+        repeticiones *= 2;
     }
 
-    /* La funcion fue muy rapida: se repite y se saca el promedio. */
-    por_llamada = segundos;
-    if (por_llamada < 1e-7) {
-        por_llamada = 1e-7;
-    }
-
-    repeticiones = (int)(TIEMPO_MINIMO / por_llamada);
-    if (repeticiones > MAX_REPETICIONES) {
-        repeticiones = MAX_REPETICIONES;
-    }
-    if (repeticiones < 1) {
-        repeticiones = 1;
-    }
-
-    inicio = clock();
-    for (i = 0; i < repeticiones; i++) {
-        funcion(n);
-    }
-    fin = clock();
-
-    return ((double)(fin - inicio) / CLOCKS_PER_SEC) / repeticiones;
+    return segundos / repeticiones;
 }
 
 /*
