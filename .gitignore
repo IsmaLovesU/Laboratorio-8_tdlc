@@ -1,0 +1,10 @@
+# Programas compilados
+problema1
+problema2
+problema3
+*.exe
+*.o
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
