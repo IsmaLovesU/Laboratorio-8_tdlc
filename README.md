@@ -116,6 +116,4 @@ carpeta `respuestas_pdf/`.
 
 ## Video
 
-Enlace al video de la ejecución (YouTube, no listado):
-
-**PENDIENTE: agregar aquí el enlace del video.**
+https://youtu.be/BtFbeblp3Q0
